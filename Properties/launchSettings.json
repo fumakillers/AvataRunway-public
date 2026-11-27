@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AvataRunway (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AvataRunway (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

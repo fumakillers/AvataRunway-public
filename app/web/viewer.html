@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src blob: data:; connect-src 'self' blob: data: https://modelassets.local https://memoryvrm.local" />
+    <title>AvataRunway Viewer</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        html, body, #viewport {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: #303236;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+            background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+            background-position: center;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #status {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            min-width: 280px;
+            max-width: min(520px, calc(100% - 48px));
+            box-sizing: border-box;
+            transform: translate(-50%, -50%);
+            padding: 18px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 8px;
+            background: rgba(24, 25, 28, 0.88);
+            color: rgba(255, 255, 255, 0.92);
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.5;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+
+        #status[hidden] {
+            display: none;
+        }
+
+        #status.error {
+            border-color: rgba(255, 99, 99, 0.7);
+        }
+
+        #status.success {
+            border-color: rgba(95, 210, 137, 0.7);
+        }
+
+        #drop-mask {
+            position: absolute;
+            inset: 12px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(96, 205, 255, 0.85);
+            border-radius: 10px;
+            background: rgba(28, 96, 124, 0.28);
+            color: white;
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        body.drag-active #drop-mask {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewport" aria-label="VRM preview"></div>
+    <div id="status" role="status" aria-live="polite">VRMファイルをここへドラッグ＆ドロップしてください。</div>
+    <div id="drop-mask">先頭のVRMファイルを読み込みます</div>
+    <script src="viewer-bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="AvataRunway.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AvataRunway"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="AvataRunway">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Custom title bar content. The right column reserves space for caption buttons. -->
+        <Grid
+            x:Name="AppTitleBar"
+            Grid.Row="0"
+            Padding="2,2,0,0"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition x:Name="CaptionButtonColumn" Width="0" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                x:Name="TitleBarPaneToggleButton"
+                Grid.Column="0"
+                Width="30"
+                Height="30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                AutomationProperties.AutomationId="TitleBarPaneToggleButton"
+                AutomationProperties.Name="Toggle navigation"
+                Click="TitleBarPaneToggleButton_Click"
+                ToolTipService.ToolTip="Toggle navigation">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+            </Button>
+
+            <Image
+                Grid.Column="1"
+                Width="20"
+                Height="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                AutomationProperties.Name="AvataRunway application icon"
+                Source="ms-appx:///Assets/AppIcon.svg"
+                Stretch="Uniform" />
+
+            <TextBlock
+                Grid.Column="2"
+                Margin="10,0,24,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Text="AvataRunway" />
+
+            <!-- Drag surface for the extended title bar. -->
+            <Grid x:Name="TitleBarDragRegion" Grid.Column="3" Background="Transparent" />
+
+            <ToggleButton
+                x:Name="InspectorToggleButton"
+                Grid.Column="4"
+                Width="30"
+                Height="30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                AutomationProperties.AutomationId="InspectorToggleButton"
+                AutomationProperties.Name="Toggle inspector pane"
+                Click="InspectorToggleButton_Click"
+                IsChecked="True"
+                ToolTipService.ToolTip="Toggle inspector pane">
+                <SymbolIcon Symbol="OpenPane" />
+            </ToggleButton>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <WebView2
+                x:Name="PreviewWebView"
+                AutomationProperties.AutomationId="PreviewWebView"
+                AutomationProperties.Name="VRM preview" />
+
+            <Grid
+                x:Name="SideNavigation"
+                Canvas.ZIndex="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,1,0"
+                Width="48">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Padding="0,8,0,0" Spacing="4">
+                    <Button
+                        x:Name="ViewerNavigationItem"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.AutomationId="ViewerNavigationItem"
+                        AutomationProperties.Name="Viewer"
+                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                        BorderThickness="0"
+                        Click="ViewerNavigationItem_Click"
+                        Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="43" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border
+                                x:Name="ViewerNavigationIndicator"
+                                Grid.Column="0"
+                                Width="3"
+                                Height="18"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                CornerRadius="2" />
+
+                            <FontIcon
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                Glyph="&#xE890;" />
+
+                            <TextBlock
+                                x:Name="ViewerNavigationLabel"
+                                Grid.Column="2"
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Viewer"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Button>
+
+                    <Button
+                        x:Name="ExpressionsNavigationItem"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.AutomationId="ExpressionsNavigationItem"
+                        AutomationProperties.Name="Expressions"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="ExpressionsNavigationItem_Click"
+                        Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="43" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border
+                                x:Name="ExpressionsNavigationIndicator"
+                                Grid.Column="0"
+                                Width="3"
+                                Height="18"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                CornerRadius="2"
+                                Visibility="Collapsed" />
+
+                            <FontIcon
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                Glyph="&#xE8D2;" />
+
+                            <TextBlock
+                                x:Name="ExpressionsNavigationLabel"
+                                Grid.Column="2"
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Expressions"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Button>
+
+                    <Button
+                        x:Name="PosesNavigationItem"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.AutomationId="PosesNavigationItem"
+                        AutomationProperties.Name="Poses"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="PosesNavigationItem_Click"
+                        Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="43" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border
+                                x:Name="PosesNavigationIndicator"
+                                Grid.Column="0"
+                                Width="3"
+                                Height="18"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                CornerRadius="2"
+                                Visibility="Collapsed" />
+
+                            <FontIcon
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                Glyph="&#xE7FC;" />
+
+                            <TextBlock
+                                x:Name="PosesNavigationLabel"
+                                Grid.Column="2"
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Pose"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Padding="0,0,0,8">
+                    <Button
+                        x:Name="SettingsNavigationItem"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.AutomationId="SettingsNavigationItem"
+                        AutomationProperties.Name="Settings"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="SettingsNavigationItem_Click"
+                        Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="43" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                Glyph="&#xE713;" />
+
+                            <TextBlock
+                                x:Name="SettingsNavigationLabel"
+                                Grid.Column="2"
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Settings"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Grid
+                x:Name="InspectorPane"
+                Canvas.ZIndex="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                Padding="16"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,0,0">
+                <Grid>
+                    <Grid.Resources>
+                        <Style x:Key="InspectorCommandButtonStyle" TargetType="Button">
+                            <Setter Property="MinHeight" Value="32" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid x:Name="ViewerInspectorContent">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Spacing="4">
+                            <TextBlock
+                                x:Name="InspectorHeadingText"
+                                AutomationProperties.AutomationId="InspectorHeadingText"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Text="VRM Info" />
+                            <TextBlock
+                                x:Name="InspectorStatusText"
+                                AutomationProperties.AutomationId="InspectorStatusText"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="No avatar loaded" />
+                        </StackPanel>
+
+                        <ScrollViewer
+                            x:Name="VrmInfoScrollViewer"
+                            Grid.Row="2"
+                            AutomationProperties.AutomationId="VrmInfoScrollViewer"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Enabled"
+                            VerticalScrollBarVisibility="Auto"
+                            VerticalScrollMode="Enabled"
+                            Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Left">
+                            <Grid ColumnSpacing="12" RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="InspectorFileLabel" Grid.Row="0" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="File" TextWrapping="NoWrap" />
+                                <TextBlock
+                                    x:Name="InspectorFileNameText"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Text="No file loaded"
+                                    TextWrapping="NoWrap" />
+
+                                <TextBlock x:Name="InspectorVrmVersionLabel" Grid.Row="1" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="VRM Version" TextWrapping="NoWrap" />
+                                <TextBlock x:Name="InspectorVrmVersionText" Grid.Row="1" Grid.Column="1" Text="-" />
+
+                                <TextBlock x:Name="InspectorTitleLabel" Grid.Row="2" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Title" TextWrapping="NoWrap" />
+                                <TextBlock x:Name="InspectorTitleText" Grid.Row="2" Grid.Column="1" Text="-" TextWrapping="NoWrap" />
+
+                                <TextBlock x:Name="InspectorAuthorsLabel" Grid.Row="3" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Author(s)" TextWrapping="NoWrap" />
+                                <TextBlock x:Name="InspectorAuthorsText" Grid.Row="3" Grid.Column="1" Text="-" TextWrapping="NoWrap" />
+
+                                <TextBlock x:Name="InspectorModelVersionLabel" Grid.Row="4" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Model Version" TextWrapping="NoWrap" />
+                                <TextBlock x:Name="InspectorModelVersionText" Grid.Row="4" Grid.Column="1" Text="-" TextWrapping="NoWrap" />
+                            </Grid>
+
+                            <Grid
+                                x:Name="InspectorVersionMetadataRows"
+                                Margin="0,8,0,0"
+                                ColumnSpacing="12"
+                                RowSpacing="8">
+                                <Grid.Resources>
+                                    <Style x:Key="InspectorMetadataLabelStyle" TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        <Setter Property="TextWrapping" Value="NoWrap" />
+                                    </Style>
+                                    <Style x:Key="InspectorMetadataValueStyle" TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="NoWrap" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+
+                            <TextBlock
+                                x:Name="InspectorBonesHeadingText"
+                                AutomationProperties.AutomationId="InspectorBonesHeadingText"
+                                Margin="0,16,0,8"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="Bones" />
+
+                            <TreeView
+                                x:Name="BoneTreeView"
+                                AutomationProperties.AutomationId="BoneTreeView"
+                                AutomationProperties.Name="VRM bone hierarchy"
+                                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                ScrollViewer.HorizontalScrollMode="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                ScrollViewer.VerticalScrollMode="Disabled"
+                                SelectionMode="None" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <Grid
+                        x:Name="ExpressionsInspectorContent"
+                        Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="12" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            x:Name="ExpressionsHeadingText"
+                            Grid.Row="0"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Text="Expressions" />
+
+                        <Grid Grid.Row="2" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="ImportExpressionPackButton"
+                                AutomationProperties.AutomationId="ImportExpressionPackButton"
+                                AutomationProperties.Name="Import Expression Pack"
+                                Click="ImportExpressionPackButton_Click"
+                                Content="Import"
+                                IsEnabled="False"
+                                Style="{StaticResource InspectorCommandButtonStyle}" />
+                            <Button
+                                x:Name="ExportExpressionPackButton"
+                                Grid.Column="1"
+                                AutomationProperties.AutomationId="ExportExpressionPackButton"
+                                AutomationProperties.Name="Export Expression Pack"
+                                Click="ExportExpressionPackButton_Click"
+                                Content="Export"
+                                IsEnabled="False"
+                                Style="{StaticResource InspectorCommandButtonStyle}" />
+                            <Button
+                                x:Name="ResetExpressionsButton"
+                                Grid.Column="2"
+                                AutomationProperties.AutomationId="ResetExpressionsButton"
+                                AutomationProperties.Name="Reset all expressions"
+                                Click="ResetExpressionsButton_Click"
+                                Content="Reset All"
+                                IsEnabled="False"
+                                Style="{StaticResource InspectorCommandButtonStyle}" />
+                        </Grid>
+
+                        <StackPanel Grid.Row="4" Spacing="8">
+                            <InfoBar
+                                x:Name="ExpressionPackInfoBar"
+                                AutomationProperties.AutomationId="ExpressionPackInfoBar"
+                                IsClosable="False"
+                                IsOpen="False"
+                                Severity="Informational" />
+                            <Grid x:Name="ExpressionPackPreviewActions" ColumnSpacing="8" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    x:Name="SaveExpressionPackPreviewButton"
+                                    AutomationProperties.AutomationId="SaveExpressionPackPreviewButton"
+                                    AutomationProperties.Name="Save imported VRM as a new file"
+                                    Click="SaveExpressionPackPreviewButton_Click"
+                                    Content="Save As"
+                                    Style="{StaticResource InspectorCommandButtonStyle}" />
+                                <Button
+                                    x:Name="CancelExpressionPackPreviewButton"
+                                    Grid.Column="1"
+                                    AutomationProperties.AutomationId="CancelExpressionPackPreviewButton"
+                                    AutomationProperties.Name="Cancel Expression Pack preview"
+                                    Click="CancelExpressionPackPreviewButton_Click"
+                                    Content="Cancel"
+                                    Style="{StaticResource InspectorCommandButtonStyle}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <Grid Grid.Row="6">
+                            <TextBlock
+                                x:Name="ExpressionsEmptyStateText"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="No avatar loaded" />
+                            <ScrollViewer
+                                x:Name="ExpressionsScrollViewer"
+                                AutomationProperties.AutomationId="ExpressionsScrollViewer"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                Visibility="Collapsed">
+                                <StackPanel
+                                    x:Name="ExpressionsListPanel"
+                                    Spacing="12" />
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+
+                    <Grid
+                        x:Name="PosesInspectorContent"
+                        Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="12" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            x:Name="PosesHeadingText"
+                            Grid.Row="0"
+                            AutomationProperties.AutomationId="PosesHeadingText"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Text="Poses" />
+
+                        <Grid Grid.Row="2" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="ImportPoseButton"
+                                AutomationProperties.AutomationId="ImportPoseButton"
+                                AutomationProperties.Name="Import pose"
+                                Click="ImportPoseButton_Click"
+                                Content="Import"
+                                IsEnabled="False"
+                                Style="{StaticResource InspectorCommandButtonStyle}" />
+                            <Button
+                                x:Name="ExportPoseButton"
+                                Grid.Column="1"
+                                AutomationProperties.AutomationId="ExportPoseButton"
+                                AutomationProperties.Name="Export pose"
+                                Click="ExportPoseButton_Click"
+                                Content="Export"
+                                IsEnabled="False"
+                                Style="{StaticResource InspectorCommandButtonStyle}" />
+                            <Button
+                                x:Name="ResetAllPoseButton"
+                                Grid.Column="2"
+                                AutomationProperties.AutomationId="ResetAllPoseButton"
+                                AutomationProperties.Name="Reset all pose rotations"
+                                Click="ResetAllPoseButton_Click"
+                                Content="Reset All"
+                                IsEnabled="False"
+                                Style="{StaticResource InspectorCommandButtonStyle}" />
+                        </Grid>
+
+                        <InfoBar
+                            x:Name="PoseInfoBar"
+                            Grid.Row="4"
+                            AutomationProperties.AutomationId="PoseInfoBar"
+                            IsClosable="True"
+                            IsOpen="False"
+                            Severity="Informational" />
+
+                        <Grid Grid.Row="6">
+                            <TextBlock
+                                x:Name="PosesEmptyStateText"
+                                AutomationProperties.AutomationId="PosesEmptyStateText"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="No avatar loaded" />
+
+                            <ScrollViewer
+                                x:Name="PoseEditorScrollViewer"
+                                AutomationProperties.AutomationId="PoseEditorScrollViewer"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                Visibility="Collapsed">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock
+                                            x:Name="SelectedBoneLabel"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="Selected Bone" />
+                                        <TextBlock
+                                            x:Name="SelectedBoneNameText"
+                                            AutomationProperties.AutomationId="SelectedBoneNameText"
+                                            FontWeight="SemiBold"
+                                            Text="-" />
+                                    </StackPanel>
+
+                                    <ComboBox
+                                        x:Name="PoseBoneComboBox"
+                                        HorizontalAlignment="Stretch"
+                                        AutomationProperties.AutomationId="PoseBoneComboBox"
+                                        AutomationProperties.Name="Humanoid bone"
+                                        Header="Humanoid Bone"
+                                        SelectionChanged="PoseBoneComboBox_SelectionChanged" />
+
+                                    <TextBlock
+                                        x:Name="RotationHeadingText"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="Rotation (XYZ degrees)" />
+
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <NumberBox
+                                            x:Name="PoseRotationXNumberBox"
+                                            AutomationProperties.AutomationId="PoseRotationXNumberBox"
+                                            AutomationProperties.Name="Rotation X in degrees"
+                                            Header="X"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            ValidationMode="InvalidInputOverwritten"
+                                            ValueChanged="PoseRotationNumberBox_ValueChanged" />
+                                        <NumberBox
+                                            x:Name="PoseRotationYNumberBox"
+                                            Grid.Column="1"
+                                            AutomationProperties.AutomationId="PoseRotationYNumberBox"
+                                            AutomationProperties.Name="Rotation Y in degrees"
+                                            Header="Y"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            ValidationMode="InvalidInputOverwritten"
+                                            ValueChanged="PoseRotationNumberBox_ValueChanged" />
+                                        <NumberBox
+                                            x:Name="PoseRotationZNumberBox"
+                                            Grid.Column="2"
+                                            AutomationProperties.AutomationId="PoseRotationZNumberBox"
+                                            AutomationProperties.Name="Rotation Z in degrees"
+                                            Header="Z"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            ValidationMode="InvalidInputOverwritten"
+                                            ValueChanged="PoseRotationNumberBox_ValueChanged" />
+                                    </Grid>
+
+                                    <Button
+                                        x:Name="ResetPoseBoneButton"
+                                        HorizontalAlignment="Stretch"
+                                        AutomationProperties.AutomationId="ResetPoseBoneButton"
+                                        AutomationProperties.Name="Reset selected bone"
+                                        Click="ResetPoseBoneButton_Click"
+                                        Content="Reset Bone" />
+
+                                    <Rectangle
+                                        Height="1"
+                                        Margin="0,4"
+                                        Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                                    <StackPanel
+                                        x:Name="PoseHandsSection"
+                                        Spacing="10"
+                                        Visibility="Collapsed">
+                                        <TextBlock
+                                            x:Name="PoseHandsHeadingText"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="Hands" />
+
+                                        <Grid ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <ToggleButton
+                                                x:Name="LeftPoseHandButton"
+                                                HorizontalAlignment="Stretch"
+                                                AutomationProperties.AutomationId="LeftPoseHandButton"
+                                                Click="PoseHandButton_Click"
+                                                Content="Left Hand"
+                                                Tag="left" />
+                                            <ToggleButton
+                                                x:Name="RightPoseHandButton"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Stretch"
+                                                AutomationProperties.AutomationId="RightPoseHandButton"
+                                                Click="PoseHandButton_Click"
+                                                Content="Right Hand"
+                                                Tag="right" />
+                                        </Grid>
+
+                                        <Viewbox
+                                            Height="190"
+                                            HorizontalAlignment="Center"
+                                            Stretch="Uniform">
+                                            <Canvas Width="250" Height="185">
+                                                <Path
+                                                    Canvas.Left="34"
+                                                    Canvas.Top="54"
+                                                    Width="190"
+                                                    Height="126"
+                                                    Data="M 34,118 C 48,88 72,72 100,70 C 135,68 166,79 188,103 L 188,142 L 69,142 C 55,142 42,134 34,118 Z"
+                                                    Fill="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    Opacity="0.18"
+                                                    Stretch="Fill" />
+                                                <Slider
+                                                    x:Name="ThumbCurlSlider"
+                                                    Canvas.Left="22"
+                                                    Canvas.Top="80"
+                                                    Width="70"
+                                                    Height="28"
+                                                    AutomationProperties.AutomationId="ThumbCurlSlider"
+                                                    IsDirectionReversed="True"
+                                                    Maximum="1"
+                                                    Minimum="0"
+                                                    Orientation="Vertical"
+                                                    PointerCanceled="FingerCurlSlider_PointerEnded"
+                                                    PointerCaptureLost="FingerCurlSlider_PointerEnded"
+                                                    PointerPressed="FingerCurlSlider_PointerPressed"
+                                                    PointerReleased="FingerCurlSlider_PointerEnded"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    SmallChange="0.05"
+                                                    StepFrequency="0.05"
+                                                    Tag="thumb"
+                                                    ValueChanged="FingerCurlSlider_ValueChanged">
+                                                    <Slider.RenderTransform>
+                                                        <RotateTransform Angle="-52" />
+                                                    </Slider.RenderTransform>
+                                                </Slider>
+                                                <Slider
+                                                    x:Name="IndexCurlSlider"
+                                                    Canvas.Left="72"
+                                                    Canvas.Top="6"
+                                                    Height="112"
+                                                    AutomationProperties.AutomationId="IndexCurlSlider"
+                                                    IsDirectionReversed="True"
+                                                    Maximum="1"
+                                                    Minimum="0"
+                                                    Orientation="Vertical"
+                                                    PointerCanceled="FingerCurlSlider_PointerEnded"
+                                                    PointerCaptureLost="FingerCurlSlider_PointerEnded"
+                                                    PointerPressed="FingerCurlSlider_PointerPressed"
+                                                    PointerReleased="FingerCurlSlider_PointerEnded"
+                                                    SmallChange="0.05"
+                                                    StepFrequency="0.05"
+                                                    Tag="index"
+                                                    ValueChanged="FingerCurlSlider_ValueChanged" />
+                                                <Slider
+                                                    x:Name="MiddleCurlSlider"
+                                                    Canvas.Left="112"
+                                                    Canvas.Top="0"
+                                                    Height="118"
+                                                    AutomationProperties.AutomationId="MiddleCurlSlider"
+                                                    IsDirectionReversed="True"
+                                                    Maximum="1"
+                                                    Minimum="0"
+                                                    Orientation="Vertical"
+                                                    PointerCanceled="FingerCurlSlider_PointerEnded"
+                                                    PointerCaptureLost="FingerCurlSlider_PointerEnded"
+                                                    PointerPressed="FingerCurlSlider_PointerPressed"
+                                                    PointerReleased="FingerCurlSlider_PointerEnded"
+                                                    SmallChange="0.05"
+                                                    StepFrequency="0.05"
+                                                    Tag="middle"
+                                                    ValueChanged="FingerCurlSlider_ValueChanged" />
+                                                <Slider
+                                                    x:Name="RingCurlSlider"
+                                                    Canvas.Left="152"
+                                                    Canvas.Top="10"
+                                                    Height="108"
+                                                    AutomationProperties.AutomationId="RingCurlSlider"
+                                                    IsDirectionReversed="True"
+                                                    Maximum="1"
+                                                    Minimum="0"
+                                                    Orientation="Vertical"
+                                                    PointerCanceled="FingerCurlSlider_PointerEnded"
+                                                    PointerCaptureLost="FingerCurlSlider_PointerEnded"
+                                                    PointerPressed="FingerCurlSlider_PointerPressed"
+                                                    PointerReleased="FingerCurlSlider_PointerEnded"
+                                                    SmallChange="0.05"
+                                                    StepFrequency="0.05"
+                                                    Tag="ring"
+                                                    ValueChanged="FingerCurlSlider_ValueChanged" />
+                                                <Slider
+                                                    x:Name="LittleCurlSlider"
+                                                    Canvas.Left="192"
+                                                    Canvas.Top="25"
+                                                    Height="93"
+                                                    AutomationProperties.AutomationId="LittleCurlSlider"
+                                                    IsDirectionReversed="True"
+                                                    Maximum="1"
+                                                    Minimum="0"
+                                                    Orientation="Vertical"
+                                                    PointerCanceled="FingerCurlSlider_PointerEnded"
+                                                    PointerCaptureLost="FingerCurlSlider_PointerEnded"
+                                                    PointerPressed="FingerCurlSlider_PointerPressed"
+                                                    PointerReleased="FingerCurlSlider_PointerEnded"
+                                                    SmallChange="0.05"
+                                                    StepFrequency="0.05"
+                                                    Tag="little"
+                                                    ValueChanged="FingerCurlSlider_ValueChanged" />
+                                            </Canvas>
+                                        </Viewbox>
+
+                                        <Slider
+                                            x:Name="FingerSpreadSlider"
+                                            AutomationProperties.AutomationId="FingerSpreadSlider"
+                                            Header="Finger Spread"
+                                            Maximum="1"
+                                            Minimum="0"
+                                            PointerCanceled="FingerSpreadSlider_PointerEnded"
+                                            PointerCaptureLost="FingerSpreadSlider_PointerEnded"
+                                            PointerPressed="FingerSpreadSlider_PointerPressed"
+                                            PointerReleased="FingerSpreadSlider_PointerEnded"
+                                            SmallChange="0.05"
+                                            StepFrequency="0.05"
+                                            ValueChanged="FingerSpreadSlider_ValueChanged" />
+
+                                        <Grid ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button
+                                                x:Name="CopyPoseFingersButton"
+                                                HorizontalAlignment="Stretch"
+                                                AutomationProperties.AutomationId="CopyPoseFingersButton"
+                                                Click="CopyPoseFingersButton_Click"
+                                                Content="Copy fingers to other hand" />
+                                            <Button
+                                                x:Name="ResetPoseHandFingersButton"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Stretch"
+                                                AutomationProperties.AutomationId="ResetPoseHandFingersButton"
+                                                Click="ResetPoseHandFingersButton_Click"
+                                                Content="Reset fingers" />
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+
+                    <local:InspectorResizeGrip
+                        x:Name="InspectorPaneResizeGrip"
+                        Canvas.ZIndex="20"
+                        Margin="-16,0,0,0"
+                        HorizontalAlignment="Left"
+                        AutomationProperties.AutomationId="InspectorPaneResizeGrip"
+                        AutomationProperties.Name="Resize inspector pane"
+                        Background="Transparent"
+                        PointerCanceled="InspectorPaneResizeGrip_PointerCanceled"
+                        PointerCaptureLost="InspectorPaneResizeGrip_PointerCaptureLost"
+                        PointerMoved="InspectorPaneResizeGrip_PointerMoved"
+                        PointerPressed="InspectorPaneResizeGrip_PointerPressed"
+                        PointerReleased="InspectorPaneResizeGrip_PointerReleased" />
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid
+            x:Name="SettingsModalOverlay"
+            Grid.RowSpan="2"
+            Canvas.ZIndex="1000"
+            AllowDrop="True"
+            AutomationProperties.AutomationId="SettingsModalOverlay"
+            Background="{ThemeResource SettingsOverlayScrimBrush}"
+            DragOver="SettingsModalOverlay_DragOver"
+            Drop="SettingsModalOverlay_Drop"
+            TabFocusNavigation="Cycle"
+            Visibility="Collapsed">
+            <Border
+                x:Name="SettingsModalPanel"
+                Width="820"
+                Height="560"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                AutomationProperties.Name="設定"
+                Background="{ThemeResource SettingsModalBackgroundBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{ThemeResource OverlayCornerRadius}"
+                RequestedTheme="Dark">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="216" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid
+                        Grid.Column="0"
+                        Padding="12"
+                        Background="{ThemeResource SettingsSidebarBackgroundBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="0,0,1,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Button
+                            x:Name="SettingsCloseButton"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            AutomationProperties.AutomationId="SettingsCloseButton"
+                            AutomationProperties.Name="設定を閉じる"
+                            Click="SettingsCloseButton_Click"
+                            ToolTipService.ToolTip="閉じる">
+                            <SymbolIcon Symbol="Cancel" />
+                        </Button>
+
+                        <StackPanel Grid.Row="2" Spacing="4">
+                            <Button
+                                x:Name="SystemSettingsCategoryButton"
+                                Height="44"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.AutomationId="SystemSettingsCategoryButton"
+                                AutomationProperties.Name="システム"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                BorderThickness="0"
+                                Click="SystemSettingsCategoryButton_Click"
+                                Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="36" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        x:Name="SystemSettingsCategoryIndicator"
+                                        Grid.Column="0"
+                                        Width="3"
+                                        Height="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                        CornerRadius="2" />
+                                    <FontIcon
+                                        Grid.Column="1"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Glyph="&#xE770;" />
+                                    <TextBlock
+                                        x:Name="SystemSettingsCategoryLabel"
+                                        Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                                        Text="システム" />
+                                </Grid>
+                            </Button>
+
+                            <Button
+                                x:Name="AppearanceSettingsCategoryButton"
+                                Height="44"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.AutomationId="AppearanceSettingsCategoryButton"
+                                AutomationProperties.Name="画面表示"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="AppearanceSettingsCategoryButton_Click"
+                                Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="36" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        x:Name="AppearanceSettingsCategoryIndicator"
+                                        Grid.Column="0"
+                                        Width="3"
+                                        Height="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                        CornerRadius="2"
+                                        Visibility="Collapsed" />
+                                    <FontIcon
+                                        Grid.Column="1"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Glyph="&#xE7F4;" />
+                                    <TextBlock
+                                        x:Name="AppearanceSettingsCategoryLabel"
+                                        Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                                        Text="画面表示" />
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Padding="28,24,28,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            x:Name="SettingsCategoryTitle"
+                            AutomationProperties.AutomationId="SettingsCategoryTitle"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="システム" />
+
+                        <Border
+                            Grid.Row="2"
+                            Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                        <ScrollViewer
+                            x:Name="SettingsContentScrollViewer"
+                            Grid.Row="4"
+                            AutomationProperties.AutomationId="SettingsContentScrollViewer"
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Auto">
+                            <Grid>
+                                <StackPanel x:Name="SystemSettingsContent" Spacing="0">
+                                <Grid MinHeight="88" ColumnSpacing="24" Padding="0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel VerticalAlignment="Center" Spacing="4">
+                                        <TextBlock
+                                            x:Name="AutoLoadLastVrmLabel"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="起動時に前回のVRMを自動読み込み"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Name="AutoLoadLastVrmDescription"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="最後に読み込んだVRMの元ファイルを次回起動時に開きます。"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <ToggleSwitch
+                                        x:Name="AutoLoadLastVrmToggle"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AutomationId="AutoLoadLastVrmToggle"
+                                        AutomationProperties.Name="起動時に前回のVRMを自動読み込み"
+                                        OffContent=""
+                                        OnContent=""
+                                        Toggled="AutoLoadLastVrmToggle_Toggled" />
+                                </Grid>
+                                <Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                                <Grid MinHeight="88" ColumnSpacing="24" Padding="0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel VerticalAlignment="Center" Spacing="4">
+                                        <TextBlock
+                                            x:Name="RestoreWindowLabel"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="前回のウィンドウ位置とサイズを復元"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Name="RestoreWindowDescription"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="次回起動時に、最後に閉じた位置とサイズへ戻します。"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <ToggleSwitch
+                                        x:Name="RestoreWindowToggle"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AutomationId="RestoreWindowToggle"
+                                        AutomationProperties.Name="前回のウィンドウ位置とサイズを復元"
+                                        OffContent=""
+                                        OnContent=""
+                                        Toggled="RestoreWindowToggle_Toggled" />
+                                </Grid>
+                                <Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                                <Grid MinHeight="80" ColumnSpacing="24" Padding="0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="176" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Name="LogLevelLabel"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                                        Text="ログレベル" />
+                                    <ComboBox
+                                        x:Name="LogLevelComboBox"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AutomationId="LogLevelComboBox"
+                                        AutomationProperties.Name="ログレベル"
+                                        SelectionChanged="LogLevelComboBox_SelectionChanged">
+                                        <ComboBoxItem AutomationProperties.AutomationId="LogLevelAllItem" Content="ALL" />
+                                        <ComboBoxItem AutomationProperties.AutomationId="LogLevelWarnErrorItem" Content="WARN / ERROR" />
+                                        <ComboBoxItem AutomationProperties.AutomationId="LogLevelErrorItem" Content="ERROR" />
+                                    </ComboBox>
+                                </Grid>
+                                <Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                                <Grid MinHeight="80" ColumnSpacing="24" Padding="0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="176" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel VerticalAlignment="Center" Spacing="4">
+                                        <TextBlock
+                                            x:Name="LanguageLabel"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="言語" />
+                                        <TextBlock
+                                            x:Name="LanguageDescription"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="設定画面などの表示言語を切り替えます。"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <ComboBox
+                                        x:Name="LanguageComboBox"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AutomationId="LanguageComboBox"
+                                        AutomationProperties.Name="言語"
+                                        SelectionChanged="LanguageComboBox_SelectionChanged">
+                                        <ComboBoxItem AutomationProperties.AutomationId="LanguageJapaneseItem" Content="日本語" />
+                                        <ComboBoxItem AutomationProperties.AutomationId="LanguageEnglishItem" Content="English" />
+                                        <ComboBoxItem AutomationProperties.AutomationId="LanguageChineseItem" Content="中文" />
+                                        <ComboBoxItem AutomationProperties.AutomationId="LanguageKoreanItem" Content="한국어" />
+                                    </ComboBox>
+                                </Grid>
+                                </StackPanel>
+
+                                <StackPanel
+                                    x:Name="AppearanceSettingsContent"
+                                    Spacing="0"
+                                    Visibility="Collapsed">
+                                    <Grid MinHeight="88" ColumnSpacing="24" Padding="0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="260" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Name="ColorSchemeLabel"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="配色" />
+                                        <ComboBox
+                                            x:Name="ColorSchemeComboBox"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            AutomationProperties.AutomationId="ColorSchemeComboBox"
+                                            AutomationProperties.Name="配色"
+                                            SelectionChanged="ColorSchemeComboBox_SelectionChanged">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="local:PreviewColorSchemeOption">
+                                                    <Grid
+                                                        MinWidth="220"
+                                                        AutomationProperties.Name="{x:Bind Name, Mode=OneTime}"
+                                                        ColumnSpacing="12">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="44" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border
+                                                            Width="44"
+                                                            Height="24"
+                                                            Background="{x:Bind BackgroundBrush, Mode=OneTime}"
+                                                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="{ThemeResource ControlCornerRadius}">
+                                                            <Grid>
+                                                                <Border
+                                                                    Width="1"
+                                                                    HorizontalAlignment="Center"
+                                                                    Background="{x:Bind GridBrush, Mode=OneTime}" />
+                                                                <Border
+                                                                    Height="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Background="{x:Bind GridBrush, Mode=OneTime}" />
+                                                            </Grid>
+                                                        </Border>
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            Style="{StaticResource BodyTextBlockStyle}"
+                                                            Text="{x:Bind Name, Mode=OneTime}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

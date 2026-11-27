@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" role="img" aria-label="AvataRunway">
+  <defs>
+    <linearGradient id="orb" x1="512" y1="157" x2="733" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2fd2ff" />
+      <stop offset="1" stop-color="#075ee6" />
+    </linearGradient>
+    <linearGradient id="leftRibbon" x1="408" y1="500" x2="276" y2="1070" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#31d2ff" />
+      <stop offset="1" stop-color="#1187f4" />
+    </linearGradient>
+    <linearGradient id="rightRibbon" x1="705" y1="478" x2="974" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07378e" />
+      <stop offset="0.5" stop-color="#0877ef" />
+      <stop offset="1" stop-color="#075fdd" />
+    </linearGradient>
+  </defs>
+  <rect x="0.5" y="0.5" width="1253" height="1253" rx="252" fill="#202020" stroke="#555" stroke-opacity="0.75" />
+  <circle cx="626" cy="292" r="154" fill="url(#orb)" />
+  <path d="M504 473h215L404 1043c-13 24-35 37-64 37H203c-34 0-53-34-36-65l283-507c12-23 30-35 54-35Z" fill="url(#leftRibbon)" />
+  <path d="M625 640l76-137c22-40 76-40 98 0l288 512c17 31-3 65-38 65H913c-28 0-50-13-64-38L625 640Z" fill="url(#rightRibbon)" />
+</svg>

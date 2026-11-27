@@ -1,0 +1,16 @@
+{
+  "name": "avatarunway-web-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/viewer.js --bundle --minify --format=iife --target=chrome110 --outfile=../app/web/viewer-bundle.js",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@pixiv/three-vrm": "3.5.5",
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1"
+  }
+}
