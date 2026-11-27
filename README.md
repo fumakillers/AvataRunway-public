@@ -2,6 +2,10 @@
 
 Windows 用の VRM ビューアーです。VRM 0.x と 1.0 のプレビュー、メタ情報表示、カメラ操作、表情・ポーズの調整、表情パックとポーズの入出力に対応しています。対応する表情パックを読み込んだモデルは別名で保存できます。
 
+![1](docs/images/0001.png)
+
+![2](docs/images/0002.png)
+
 ## 起動と保存先
 
 Windows x64 と Microsoft Edge WebView2 Evergreen Runtime が必要です。起動を確認した環境は Windows 11 x64（ビルド 26200）です。他の OS ビルドでの動作は未検証です。Runtime がない場合は、Microsoft の配布ページから Evergreen Runtime をインストールしてアプリを起動し直してください。[WebView2 をダウンロード](https://developer.microsoft.com/microsoft-edge/webview2/#download-section)
